@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: kelassirdb
+      MYSQL_USER: sir
+      MYSQL_PASSWORD: toor
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - kelassir-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: sir
+      PMA_PASSWORD: toor
+    ports:
+      - "8080:80"
+    networks:
+      - kelassir-network
+
+  kelassir-lara-app:
+    build:
+      context: ./lara/src
+      dockerfile: Dockerfile
+    container_name: kelassir-lara-app
+    restart: always
+    working_dir: /var/www/html
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: kelassirdb
+      DB_USERNAME: sir
+      DB_PASSWORD: toor
+    volumes:
+      - ./lara/src:/var/www/html
+      - ./lara/env/env-kelassir-lara:/var/www/html/.env
+    depends_on:
+      - mysql
+    networks:
+      - kelassir-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./lara/src:/var/www/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - kelassir-lara-app
+    networks:
+      - kelassir-network
+
+volumes:
+  mysql_data:
+
+networks:
+  kelassir-network:
+    driver: bridge
