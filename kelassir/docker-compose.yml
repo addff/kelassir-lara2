@@ -31,7 +31,7 @@ services:
   kelassir-lara-app:
     build:
       context: ./lara/src
-      dockerfile: Dockerfile
+      dockerfile: ../Dockerfile
     container_name: kelassir-lara-app
     restart: always
     working_dir: /var/www/html
