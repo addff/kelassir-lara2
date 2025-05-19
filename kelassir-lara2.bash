@@ -18,5 +18,5 @@ done
 
 # Run composer di dalam container
 echo "Menjalankan Composer di dalam container"
-docker-compose exec kelassir_lara_app composer create-project laravel/laravel .
+docker-compose exec kelassir-lara-app bash -c "rm -rf *; composer create-project laravel/laravel ."
 
