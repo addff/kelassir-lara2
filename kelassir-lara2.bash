@@ -12,11 +12,11 @@ docker-compose up -d
 
 # Tunggu Laravel container siap
 echo "Menunggu Laravel container untuk sedia..."
-while ! docker exec kelassir-lara-app php -r "echo 'ready';" 2>/dev/null; do
+while ! docker exec kelassir_lara_app php -r "echo 'ready';" 2>/dev/null; do
   sleep 1
 done
 
 # Run composer di dalam container
 echo "Menjalankan Composer di dalam container"
-docker-compose exec kelassir-lara-app composer create-project laravel/laravel .
+docker-compose exec kelassir_lara_app composer create-project laravel/laravel .
 
