@@ -18,7 +18,7 @@ sudo docker-compose up -d
 
 # Tunggu Laravel container siap
 echo "Menunggu Laravel container untuk sedia..."
-while ! sudo docker exec kelassir_lara_app php -r "echo 'ready';" 2>/dev/null; do
+while ! sudo docker exec kelassir_lara2_app php -r "echo 'ready';" 2>/dev/null; do
   sleep 1
 done
 echo " ..... finished."
@@ -27,8 +27,10 @@ echo " ..... finished."
 sudo chmod -R 777 lara/app/bootstrap
 sudo chmod -R 777 lara/app/storage
 sudo chmod 777 lara/app/.env
+sudo touch lara/app/.env-asal
+sudo chmod 777 lara/app/.env-asal
 
 # Run key:generate & key:migration
 echo "Finale..."
-sudo docker-compose exec lara-app bash -c "cp .env-kelassir .env; php artisan key:generate; php artisan migrate"
+sudo docker-compose exec lara2-app bash -c "cp .env .env-asal; cp .env-kelassir .env; php artisan key:generate; echo saya assume dalam 20 saat mysql dah siap create database dan table;  sleep 20;  php artisan migrate"
 sudo docker-compose logs -f
