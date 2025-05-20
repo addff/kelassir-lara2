@@ -21,6 +21,7 @@ echo "Menunggu Laravel container untuk sedia..."
 while ! sudo docker exec kelassir_lara_app php -r "echo 'ready';" 2>/dev/null; do
   sleep 1
 done
+echo " ..... finished."
 
 # Beri permission sementara untuk development
 sudo chmod -R 777 lara/app/bootstrap
