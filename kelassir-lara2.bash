@@ -25,7 +25,8 @@ done
 # Beri permission sementara untuk development
 sudo chmod -R 777 lara/app/bootstrap
 sudo chmod -R 777 lara/app/storage
+sudo chmod 777 lara/app/.env
 
 # Run key:generate & key:migration
-echo "Finale"
-#sudo docker-compose exec lara-app bash -c "mv .env-kelassir .env; php artisan key:generate; php artisan key:generate"
+echo "Finale..."
+#sudo docker-compose exec lara-app bash -c "mv .env-kelassir .env; php artisan key:generate; php artisan migrate"
