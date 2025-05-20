@@ -30,4 +30,5 @@ sudo chmod 777 lara/app/.env
 
 # Run key:generate & key:migration
 echo "Finale..."
-#sudo docker-compose exec lara-app bash -c "cp .env-kelassir .env; php artisan key:generate; php artisan migrate"
+sudo docker-compose exec lara-app bash -c "cp .env-kelassir .env; php artisan key:generate; php artisan migrate"
+sudo docker-compose logs -f
