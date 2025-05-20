@@ -1,9 +1,9 @@
 #version: '3.8'
 
 services:
-  lara-mysql:
+  lara2-mysql:
     image: mysql:8.0
-    container_name: kelassir_lara_mysql
+    container_name: kelassir_lara2_mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: secret
@@ -11,53 +11,53 @@ services:
       MYSQL_USER: sir
       MYSQL_PASSWORD: toor
     volumes:
-      - kelassir-mysql_data:/var/lib/mysql
+      - lara2_mysql_data:/var/lib/mysql
     ports:
       - "8886:3306"
     networks:
-      - kelassir-network
+      - kelassir-lara2-network
 
-  lara-phpmyadmin:
+  lara2-phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: kelassir_lara_phpmyadmin
+    container_name: kelassir_lara2_phpmyadmin
     restart: always
     environment:
-      PMA_HOST: lara-mysql
+      PMA_HOST: lara2-mysql
       PMA_USER: sir
       PMA_PASSWORD: toor
     ports:
       - "8888:80"
     networks:
-      - kelassir-network
+      - kelassir-lara2-network
 
-  lara-app:
+  lara2-app:
     build:
       context: ./lara/app
       dockerfile: ../Dockerfile
-    container_name: kelassir_lara_app
+    container_name: kelassir_lara2_app
     working_dir: /var/www
     volumes:
       - ./lara/app:/var/www
       - ./lara/env/env-kelassir-lara:/var/www/.env-kelassir
     networks:
-      - kelassir-network
+      - kelassir-lara2-network
 
-  lara-webserver:
+  lara2-webserver:
     image: nginx:alpine
-    container_name: kelassir_lara_nginx_server
+    container_name: kelassir_lara2_nginx_server
     ports:
       - "8880:80"
     volumes:
       - ./lara/app:/var/www
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - lara-app
+      - lara2-app
     networks:
-      - kelassir-network
+      - kelassir-lara2-network
 
 volumes:
-  kelassir-mysql_data:
+  lara2_mysql_data:
 
 networks:
-  kelassir-network:
+  kelassir-lara2-network:
     driver: bridge
