@@ -1,7 +1,7 @@
 #version: '3.8'
 
 services:
-  kelassir-lara-mysql:
+  lara-mysql:
     image: mysql:8.0
     container_name: kelassir_lara_mysql
     restart: always
@@ -17,12 +17,12 @@ services:
     networks:
       - kelassir-network
 
-  kelassir-lara-phpmyadmin:
+  lara-phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: kelassir_lara_phpmyadmin
     restart: always
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: lara-mysql
       PMA_USER: sir
       PMA_PASSWORD: toor
     ports:
@@ -30,7 +30,7 @@ services:
     networks:
       - kelassir-network
 
-  kelassir-lara-app:
+  lara-app:
     build:
       context: ./lara/app
       dockerfile: ../Dockerfile
@@ -38,10 +38,11 @@ services:
     working_dir: /var/www
     volumes:
       - ./lara/app:/var/www
+      - ./lara/env/env-kelassir-lara:/var/www/.env-kelassir
     networks:
       - kelassir-network
 
-  kelassir-lara-webserver:
+  lara-webserver:
     image: nginx:alpine
     container_name: kelassir_lara_nginx_server
     ports:
@@ -50,7 +51,7 @@ services:
       - ./lara/app:/var/www
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - kelassir-lara-app
+      - lara-app
     networks:
       - kelassir-network
 
